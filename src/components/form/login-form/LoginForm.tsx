@@ -5,11 +5,11 @@ import {loginValidator} from "../../../validator/LoginValidator.ts";
 import {loginUser} from "../../../api/auth/loginUser.ts";
 import {useAppDispatch} from "../../../redux/hooks/useAppDispatch.tsx";
 import {userAuthSliceSliceActions} from "../../../redux/slices/userAuth-slice/UserAuthSlice.ts";
-import {memo, useEffect} from "react";
+import {useEffect} from "react";
 import {useAppSelector} from "../../../redux/hooks/useAppSelector.tsx";
 import {modalSliceActions} from "../../../redux/slices/modal-slice/ModalSlice.ts";
 
-export const LoginForm = memo(() => {
+export const LoginForm = () => {
     const {isActive} = useAppSelector(({modalSlice})=>modalSlice)
     const dispatch = useAppDispatch()
 
@@ -26,7 +26,6 @@ export const LoginForm = memo(() => {
     const submitAndLogin = async (formData: IForm) => {
         const {data} = await loginUser({...formData,expiresInMins:30}).then(res => res);
         dispatch(userAuthSliceSliceActions.setLoginUser(data))
-        console.log(data)
         dispatch(modalSliceActions.setIsActive(false));
         reset()
     }
@@ -65,6 +64,6 @@ export const LoginForm = memo(() => {
                 </button>
             </form>
         </div>
-    );
-})
+    )
+}
 

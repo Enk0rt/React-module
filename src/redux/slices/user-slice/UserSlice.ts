@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {IUser} from "../../../models/user/IUser.ts";
 import {getData} from "../../../api/data-from-api/getData.ts";
-import {urls} from "../../../constants/urls.ts";
 import {IUserResponse} from "../../../models/user/IUserResponse.ts";
 
 type UserSliceType = {
@@ -11,7 +10,7 @@ type UserSliceType = {
 const loadUsers = createAsyncThunk(
     'userSlice/loadUsers',
     async (_, thunkApi) => {
-        return (thunkApi.fulfillWithValue(await getData<IUserResponse>(urls.users).then(({users}): IUser[] => users)))
+        return (thunkApi.fulfillWithValue(await getData<IUserResponse>("/auth/users").then(({users}): IUser[] => users)))
     })
 const userInitialState: UserSliceType = {users: []}
 export const userSlice = createSlice({

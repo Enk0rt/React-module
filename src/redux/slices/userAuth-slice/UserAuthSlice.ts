@@ -30,7 +30,6 @@ export const userAuthSlice = createSlice({
             state.isUserAuth = true
             state.authenticatedUser = action.payload
             localStorage.setItem('user', JSON.stringify(action.payload));
-            console.log(action.payload)
             state.userImage = action.payload.image
         },
         setLogoutUser:(state) =>{

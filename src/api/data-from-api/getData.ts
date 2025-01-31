@@ -4,7 +4,7 @@ import {IUserWithTokens} from "../../models/auth/IUserWithTokens.ts";
 
 axiosInstance.interceptors.request.use((request)=>{
     if(request.method?.toUpperCase()==='GET'){
-        request.headers.Authorisation = 'Bearer '+retrieveLocalStorage<IUserWithTokens>('user').accessToken
+        request.headers.Authorization= 'Bearer '+retrieveLocalStorage<IUserWithTokens>('user').accessToken
     }
     return request
 })
