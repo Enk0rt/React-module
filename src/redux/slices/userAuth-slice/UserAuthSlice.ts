@@ -25,18 +25,18 @@ export const userAuthSlice = createSlice({
     name: 'userAuthSlice',
     initialState: userAuthInitialState,
     reducers: {
-        setUserImage: (state,action) => {
-            state.userImage = action.payload
-        },
-        setUserAuth: (state,action)=>{
-            state.isUserAuth = action.payload
-        },
+
         setLoginUser: (state,action) => {
+            state.isUserAuth = true
             state.authenticatedUser = action.payload
             localStorage.setItem('user', JSON.stringify(action.payload));
+            console.log(action.payload)
+            state.userImage = action.payload.image
         },
         setLogoutUser:(state) =>{
             state.authenticatedUser = null
+            state.isUserAuth = false
+            state.userImage = null
             localStorage.removeItem('user')
         }
     }
