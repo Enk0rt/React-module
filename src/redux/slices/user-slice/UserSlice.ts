@@ -6,27 +6,18 @@ import {IUserResponse} from "../../../models/user/IUserResponse.ts";
 
 type UserSliceType = {
     users: IUser[],
-    userImage:string,
-    userAuth:boolean,
 }
+
 const loadUsers = createAsyncThunk(
     'userSlice/loadUsers',
     async (_, thunkApi) => {
         return (thunkApi.fulfillWithValue(await getData<IUserResponse>(urls.users).then(({users}): IUser[] => users)))
     })
-
-const userInitialState: UserSliceType = {users: [],userImage:'',userAuth:false}
+const userInitialState: UserSliceType = {users: []}
 export const userSlice = createSlice({
     name: 'userSlice',
     initialState: userInitialState,
-    reducers: {
-        setUserImage: (state,action) => {
-            state.userImage = action.payload
-        },
-        setUserAuth: (state,action)=>{
-            state.userAuth = action.payload
-        }
-    },
+    reducers: {},
     extraReducers: builder =>
         builder.addCase(loadUsers.fulfilled, (state, action) => {
             state.users = action.payload;
