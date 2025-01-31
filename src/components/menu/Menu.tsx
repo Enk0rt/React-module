@@ -1,23 +1,28 @@
 import {Link} from "react-router-dom";
 import {AppRoutes} from "../../routes/routes.ts";
 import {Modal} from "../modal/Modal.tsx";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {LoginForm} from "../form/login-form/LoginForm.tsx";
-import {IUserWithTokens} from "../../models/auth/IUserWithTokens.ts";
+import {useAppSelector} from "../../redux/hooks/useAppSelector.tsx";
+import {useAppDispatch} from "../../redux/hooks/useAppDispatch.tsx";
+import {userSlice} from "../../redux/slices/user-slice/UserSlice.ts";
 
 export const Menu = () => {
+    // Винести це в редакс
     const [active, setActive] = useState<boolean>(false)
     const openModal = () => {
         setActive(true)
     }
-    const [userImage,setUserImage] = useState<string>('')
-    const authenticatedUser:IUserWithTokens = JSON.parse(localStorage.getItem('user'))
-    useEffect(() => {
-        if(authenticatedUser){
-            setUserImage(authenticatedUser.image)
-        }
-    }, [authenticatedUser]);
 
+    const {userImage,userAuth} = useAppSelector(({userSlice}) => userSlice)
+    const dispatch = useAppDispatch()
+
+
+    const logoutUser = ()=> {
+        dispatch(userSlice.actions.setUserAuth(false))
+        dispatch(userSlice.actions.setUserImage(''))
+        localStorage.setItem('user','')
+    }
     return (
         <div className={'w-full bg-gray-50 bg-opacity-30 relative'}>
             <div className={'w-5/6 h-20 flex justify-end items-center '}>
@@ -31,7 +36,10 @@ export const Menu = () => {
                     <Link to={AppRoutes.recipes}>
                         <li className={'hover:text-white hover:underline underline-offset-2'}>Recipes</li>
                     </Link>
-                    <button className={'hover:text-white hover:underline underline-offset-2'} onClick={openModal}>Login</button>
+                    {
+                        userAuth ? <button className={'hover:text-white hover:underline underline-offset-2'} onClick={logoutUser}>Logout</button> : <button className={'hover:text-white hover:underline underline-offset-2'} onClick={openModal}>Login</button>
+
+                    }
                     {
                         userImage && <img src={userImage} alt="image" className={'size-14'}/>
                     }
