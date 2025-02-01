@@ -10,7 +10,12 @@ type UserSliceType = {
 const loadUsers = createAsyncThunk(
     'userSlice/loadUsers',
     async (_, thunkApi) => {
-        return (thunkApi.fulfillWithValue(await getData<IUserResponse>("/auth/users").then(({users}): IUser[] => users)))
+        try {
+            const {users} = await getData<IUserResponse>("/auth/users");
+            return users;
+        } catch (error:any) {
+            return thunkApi.rejectWithValue(error.message || 'failed to load users');
+        }
     })
 const userInitialState: UserSliceType = {users: []}
 export const userSlice = createSlice({

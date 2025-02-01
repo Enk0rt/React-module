@@ -9,7 +9,13 @@ axiosInstance.interceptors.request.use((request)=>{
     return request
 })
 
-export const getData = async <T> (url:string):Promise<T> => {
+export const getData = async <T> (url:string):Promise<T> => { try {
     const {data} = await axiosInstance.get<T>(url);
-    return data
+    return data;
+} catch (error: any) {
+    if (error.response?.status === 401) {
+        throw new Error("Unauthorized");
+    }
+    throw error;
+}
 }
