@@ -28,27 +28,38 @@ export const UserDetails = memo(() => {
 
     console.log(userRecipes)
     return (
-        !userById ? (
-            <div>Loading...</div>
-        ) : (
-            <div>
-                <h2>{userById.id} --- {userById.firstName} {userById.lastName}, {userById.age}</h2>
-                <p>{userById.gender}</p>
-                <p>{userById.birthDate}</p>
-                <p>{userById.email}</p>
-                <p>{userById.phone}</p>
-                <img src={userById.image} alt={userById.firstName}/>
-                <h3>Recipes:</h3>
+        <div className={'flex justify-center items-center pt-2 gap-14'}>
+            {!userById ? (
+                <div>Loading...</div>
+            ) : (
+                <div className={' bg-gray-200 bg-opacity-50 p-8 rounded-xl flex flex-col'}>
+                    <div className={'flex gap-6'}>
+                        <div className={'flex flex-col gap-2'}>
+                            <h2>{userById.firstName} {userById.lastName}, {userById.age}</h2>
+                            <p>{userById.gender}</p>
+                            <p>{userById.birthDate}</p>
+                            <p>{userById.email}</p>
+                            <p>{userById.phone}</p>
+                        </div>
+                        <img className={'size-40'} src={userById.image} alt={userById.firstName}/>
+                    </div>
+
+                </div>
+
+            )}
+            <div className={'w-96 bg-gray-200 bg-opacity-50 p-8 rounded-xl self-start'}>
+                <h3 className={`text-center`}>Recipes:</h3>
                 {
                     userRecipes &&
-                    <ul>
-                        {userRecipes.map((recipe,index) => (
+                    <ul className={'mt-4'}>
+                        {userRecipes.map((recipe, index) => (
                             <Link key={index} to={'/recipe/' + recipe.id}> - {recipe.name}</Link>
                         ))}
                     </ul>
                 }
             </div>
-        ));
+        </div>
+        );
 });
 
 export default UserDetails;
