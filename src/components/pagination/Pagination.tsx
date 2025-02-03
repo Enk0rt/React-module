@@ -1,5 +1,6 @@
 import {useSearchParams} from "react-router-dom";
 import {FC, memo} from "react";
+import './Pagination.scss'
 
 type Props = {
     skip: number,
@@ -15,9 +16,17 @@ export const Pagination: FC<Props> = memo(({skip, total}) => {
     }
 
     return (
-        <div className={'flex justify-center gap-4 mt-6'}>
-            <button className={'border border-black p-2 px-4 hover:bg-white hover:bg-opacity-50'} onClick={() => amountHandler(-5)} disabled={skip === 0}>Previous Page</button>
-            <button className={'border border-black p-2 px-4 hover:bg-white hover:bg-opacity-50'} onClick={() => amountHandler(5)} disabled={skip > total - 5}>Next Page</button>
-        </div>
+        skip >= total-5 ? (
+            <div className={'pagination'}>
+                <button className={'pagination__button'} onClick={() => amountHandler(-5)}
+                        disabled={skip === 0}>Previous Page
+                </button>
+            </div>
+            ): (
+            <div className={'pagination'}>
+                <button className={'pagination__button'} onClick={() => amountHandler(-5)} disabled={skip === 0}>Previous Page</button>
+                <button className={'pagination__button'} onClick={() => amountHandler(5)} disabled={skip > total - 5}>Next Page</button>
+            </div>
+        )
     );
 })

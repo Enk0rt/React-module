@@ -1,0 +1,12 @@
+.home{
+  @apply flex flex-col justify-center items-center h
+}
+.home__title{
+  @apply text-6xl w-4/5 text-center
+}
+.home__welcome-user{
+  @apply mt-6 text-4xl text-amber-300
+}
+.h{
+  height: 89vh;
+}

@@ -4,11 +4,12 @@ import {IForm} from "../../../models/form/IForm.ts";
 import {loginValidator} from "../../../validator/LoginValidator.ts";
 import {loginUser} from "../../../api/auth/loginUser.ts";
 import {useAppDispatch} from "../../../redux/hooks/useAppDispatch.tsx";
-
 import {useEffect} from "react";
 import {useAppSelector} from "../../../redux/hooks/useAppSelector.tsx";
 import {modalSliceActions} from "../../../redux/slices/modal-slice/ModalSlice.ts";
 import {userAuthSliceActions} from "../../../redux/slices/userAuth-slice/UserAuthSlice.ts";
+import './LoginForm.scss'
+
 
 export const LoginForm = () => {
     const {isActive} = useAppSelector(({modalSlice})=>modalSlice)
@@ -32,35 +33,35 @@ export const LoginForm = () => {
     }
 
     return (
-        <div className={'flex flex-col justify-center items-center gap-3'}>
+        <div className={'container'}>
             <h2>Login</h2>
-            <form className={'flex flex-col gap-2 w-60 h-50'} onSubmit={handleSubmit(submitAndLogin)}>
+            <form className={'form'} onSubmit={handleSubmit(submitAndLogin)}>
                 <div>
-                    <div className={'h-4'}>
+                    <div className={'form__error'}>
                         {
-                            errors.username  && <div className={'text-xs text-red-500'}>{errors.username.message}</div>
+                            errors.username  && <div>{errors.username.message}</div>
                         }
                     </div>
-                    <label className={'flex justify-center flex-col gap-2 relative mt-3'}>
-                        <span className={'block absolute -top-2 left-5 bg-white px-1 text-xs'}>Username</span>
+                    <label className={'input'}>
+                        <span className={'input__name'}>Username</span>
                         <input type="text" {...register('username')}
-                               className={'rounded-xl p-2 pl-4 outline-black-200 border-black border-opacity-25 border-2'}/>
+                               className={'input__item'}/>
                     </label>
                 </div>
                 <div>
-                    <div className={'h-4'}>
+                    <div className={'form__error'}>
                         {
-                            errors.password  && <div className={'text-xs text-red-500'}>{errors.password.message}</div>
+                            errors.password  && <div>{errors.password.message}</div>
                         }
                     </div>
-                    <label className={'flex justify-center flex-col gap-2 relative mt-3'}>
-                        <span className={'block absolute -top-2 left-5 bg-white px-1 text-xs'}>Password</span>
+                    <label className={'input'}>
+                        <span className={'input__name'}>Password</span>
                         <input type="text" {...register("password")}
-                               className={'rounded-xl p-2 pl-4 outline-black-200 border-black border-opacity-25 border-2'}/>
+                               className={'input__item'}/>
                     </label>
                 </div>
                 <button
-                    className={'border-2 border-black border-opacity-25 rounded-xl w-24 hover:border-black self-center mt-4'}>
+                    className={'input__submit'}>
                     Sign in
                 </button>
             </form>

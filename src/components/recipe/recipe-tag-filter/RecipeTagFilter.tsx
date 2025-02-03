@@ -21,7 +21,7 @@ export const RecipeTagFilter = () => {
         }
     }, [tagItem,skip])
     return (
-        <div>
+        <div className={'tag'}>
             {
                 recipesByTag.map((recipe,index) => <RecipeItem key={index} recipe={recipe}/>)
             }

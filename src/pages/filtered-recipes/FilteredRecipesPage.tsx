@@ -3,7 +3,7 @@ import {Search} from "../../components/search/Search.tsx";
 
 const FilteredRecipesPage = () => {
     return (
-        <div>
+        <div className={'recipes'}>
             <Search type={"recipes"}/>
             <RecipeTagFilter/>
         </div>

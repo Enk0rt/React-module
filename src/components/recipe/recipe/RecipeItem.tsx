@@ -1,6 +1,6 @@
 import {IRecipe} from "../../../models/recipe/IRecipe.ts";
 import {Link} from "react-router-dom";
-
+import './RecipeItem.scss'
 
 interface RecipeItemProps {
     recipe: IRecipe
@@ -9,13 +9,12 @@ interface RecipeItemProps {
 export const RecipeItem = ({recipe}: RecipeItemProps) => {
 
     return (
-        <div>
+        <div className={'tag__wrapper'}>
             <Link to={'/recipe/' + recipe.id}>{recipe.name} ({recipe.userId})</Link>
-            <div className={'flex gap-2 mt-2 items-center'}>
-                <p> Tags: </p>
+            <div className={'tag__container'}>
                 {
                     recipe.tags.map((tag, index) =>
-                        <div key={index} className={'px-2 py-1 bg-black rounded-md'}>
+                        <div key={index} className={'tag__item'}>
                             <Link to={'/recipe/tag/'+tag}>
                                 {tag}
                             </Link>

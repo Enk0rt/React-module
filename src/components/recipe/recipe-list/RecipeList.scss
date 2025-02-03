@@ -1,0 +1,26 @@
+.tag {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  min-height: 300px;
+  background: #686868;
+  padding: 20px;
+  border-radius: 20px;
+  gap: 6px;
+
+  font-family: 'Helvetica',sans-serif;
+  font-size: 20px;
+
+  &__list {
+    width: 500px;
+    height: 100%;
+    align-self: center;
+  }
+  &__loader{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+  }
+}

@@ -15,14 +15,11 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  transition: .3s ease;
 }
 
-.h{
-  height: 89vh;
-}
+
 input{
   box-shadow: inset 20px 20px 0 20px white
-}
-.w{
-  box-shadow: 0 0 8px #686868;
 }

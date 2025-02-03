@@ -1,0 +1,16 @@
+.tag__container{
+  @apply flex gap-2 mt-2 items-center flex-wrap
+}
+
+.tag__item{
+  @apply px-2 py-1 bg-black rounded-md
+}
+
+.tag__wrapper{
+  padding: 10px 20px;
+  border-radius: 20px;
+  transition: .3s ease;
+}
+.tag__wrapper:hover{
+  background-color: rgba(255, 255, 255, 0.42);
+}

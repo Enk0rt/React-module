@@ -1,0 +1,10 @@
+.pagination{
+  @apply flex justify-center gap-4 mt-6
+}
+.pagination__button{
+  @apply border border-black p-2 px-4 hover:bg-white hover:bg-opacity-50
+}
+
+.pagination__button{
+  transition: .3s ease;
+}

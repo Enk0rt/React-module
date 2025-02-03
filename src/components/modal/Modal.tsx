@@ -1,4 +1,4 @@
-import './modal.css'
+import './modal.scss'
 import {ReactNode} from "react";
 import {useAppSelector} from "../../redux/hooks/useAppSelector.tsx";
 import {useAppDispatch} from "../../redux/hooks/useAppDispatch.tsx";

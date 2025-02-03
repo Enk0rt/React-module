@@ -1,0 +1,9 @@
+.user__item{
+  margin-top: 12px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  box-shadow: 0 0 15px #4c4c4c;
+  &:hover{
+    background-color: rgba(255, 255, 255, 0.42);
+  }
+}
