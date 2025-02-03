@@ -1,25 +1,37 @@
-import {useAppSelector} from "../../../redux/hooks/useAppSelector.tsx";
+
 import {UserItem} from "../user/UserItem.tsx";
+
+
+import {useAppSelector} from "../../../redux/hooks/useAppSelector.tsx";
+import {useAppDispatch} from "../../../redux/hooks/useAppDispatch.tsx";
 import {useEffect} from "react";
-import {useRefreshAndLoadItems} from "../../../hooks/useRefreshAndLoadItems.tsx";
-import {IUser} from "../../../models/user/IUser.ts";
 import {userSliceActions} from "../../../redux/slices/user-slice/UserSlice.ts";
+import {useSearchParams} from "react-router-dom";
+import {Pagination} from "../../pagination/Pagination.tsx";
+
+
 
 export const UserList = () => {
-    const {users} = useAppSelector(({userSlice}) => userSlice)
-    const {fetchItems} = useRefreshAndLoadItems<IUser[]>(userSliceActions.loadUsers)
+    const [query] = useSearchParams();
+
+    const {usersByPage,total} = useAppSelector(({userSlice})=>userSlice)
+    const dispatch = useAppDispatch()
+
+    const skip: number = Number(query.get('skip'));
 
     useEffect(() => {
-        if (!users.length) {
-            fetchItems();
-        }
-    }, [users.length]);
+
+        if (!(usersByPage[skip] && usersByPage[skip].length > 0)) {
+                dispatch(userSliceActions.loadUsersWithPagination(skip));
+            }
+    }, [skip]);
 
     return (
         <div>
             {
-                users.map(user => <UserItem key={user.id} user={user}/>)
+                usersByPage[skip]?.map(user => <UserItem key={user.id} user={user}/>)
             }
+            <Pagination skip={skip} total={total}/>
         </div>
     );
 };

@@ -4,7 +4,7 @@ import {Modal} from "../modal/Modal.tsx";
 import {LoginForm} from "../form/login-form/LoginForm.tsx";
 import {useAppSelector} from "../../redux/hooks/useAppSelector.tsx";
 import {useAppDispatch} from "../../redux/hooks/useAppDispatch.tsx";
-import {userAuthSliceSliceActions} from "../../redux/slices/userAuth-slice/UserAuthSlice.ts";
+import {userAuthSliceActions} from "../../redux/slices/userAuth-slice/UserAuthSlice.ts";
 import {modalSliceActions} from "../../redux/slices/modal-slice/ModalSlice.ts";
 
 export const Menu = () => {
@@ -17,7 +17,7 @@ export const Menu = () => {
     }
 
     const logoutUser = () => {
-        dispatch(userAuthSliceSliceActions.setLogoutUser())
+        dispatch(userAuthSliceActions.setLogoutUser())
         navigate(AppRoutes.root);
     }
 

@@ -11,6 +11,7 @@ export const UserItem = memo(({user}: UserItemProps) => {
         <div>
             <Link to={'/users/'+user.id}><h2>{user.id} --- {user.firstName} {user.lastName}</h2></Link>
             <p>{user.phone}</p>
+
         </div>
     );
 })

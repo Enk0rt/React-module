@@ -4,10 +4,11 @@ import {IForm} from "../../../models/form/IForm.ts";
 import {loginValidator} from "../../../validator/LoginValidator.ts";
 import {loginUser} from "../../../api/auth/loginUser.ts";
 import {useAppDispatch} from "../../../redux/hooks/useAppDispatch.tsx";
-import {userAuthSliceSliceActions} from "../../../redux/slices/userAuth-slice/UserAuthSlice.ts";
+
 import {useEffect} from "react";
 import {useAppSelector} from "../../../redux/hooks/useAppSelector.tsx";
 import {modalSliceActions} from "../../../redux/slices/modal-slice/ModalSlice.ts";
+import {userAuthSliceActions} from "../../../redux/slices/userAuth-slice/UserAuthSlice.ts";
 
 export const LoginForm = () => {
     const {isActive} = useAppSelector(({modalSlice})=>modalSlice)
@@ -24,8 +25,8 @@ export const LoginForm = () => {
         }
     }, [isActive,reset]);
     const submitAndLogin = async (formData: IForm) => {
-        const {data} = await loginUser({...formData,expiresInMins:30}).then(res => res);
-        dispatch(userAuthSliceSliceActions.setLoginUser(data))
+        const {data} = await loginUser({...formData,expiresInMins:1}).then(res => res);
+        dispatch(userAuthSliceActions.setLoginUser(data))
         dispatch(modalSliceActions.setIsActive(false));
         reset()
     }

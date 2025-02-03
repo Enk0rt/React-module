@@ -1,33 +1,71 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {IUser} from "../../../models/user/IUser.ts";
 import {getData} from "../../../api/data-from-api/getData.ts";
-import {IUserResponse} from "../../../models/user/IUserResponse.ts";
+
+import {IUser} from "../../../models/user/IUser.ts";
+import {refresh} from "../../../api/auth/loginUser.ts";
+
+
 
 type UserSliceType = {
-    users: IUser[],
-}
+    usersByPage: Record<number, IUser[]>;
+    userById: IUser | null,
+    total: number;
 
-const loadUsers = createAsyncThunk(
-    'userSlice/loadUsers',
-    async (_, thunkApi) => {
+};
+
+const loadUserById = createAsyncThunk(
+    'userSlice/loadUserById',
+    async (id: number) => {
         try {
-            const {users} = await getData<IUserResponse>("/auth/users");
-            return users;
-        } catch (error:any) {
-            return thunkApi.rejectWithValue(error.message || 'failed to load users');
+            return await getData.getUserById(id);
+
+        } catch {
+            await refresh()
+            return await getData.getUserById(id);
         }
-    })
-const userInitialState: UserSliceType = {users: []}
+    }
+);
+
+const loadUsersWithPagination = createAsyncThunk(
+    'userSlice/loadUsersWithPagination',
+    async (skip: number) => {
+        try {
+            const {users, total} = await getData.getUsersWithPagination(skip, 5);
+            return {users, total, skip}
+        } catch {
+                await refresh()
+                const { users, total } = await getData.getUsersWithPagination(skip, 5);
+                return { users, total, skip };
+
+        }
+    }
+);
+
+
+const userInitialState: UserSliceType = {usersByPage: {}, userById: null, total: 0};
+
 export const userSlice = createSlice({
     name: 'userSlice',
     initialState: userInitialState,
-    reducers: {},
+    reducers: {
+        clearUserById: (state) => {
+            state.userById = null; // Очищення перед новим запитом
+        }
+    },
     extraReducers: builder =>
-        builder.addCase(loadUsers.fulfilled, (state, action) => {
-            state.users = action.payload;
-        })
-})
+        builder
+            .addCase(loadUsersWithPagination.fulfilled, (state, action) => {
+                state.usersByPage[action.payload.skip] = action.payload.users;
+                if (state.total === 0) {
+                    state.total = action.payload.total;
+                }
+            })
+            .addCase(loadUserById.fulfilled, (state, action) => {
+                state.userById = action.payload;
+            })
+});
 
 export const userSliceActions = {
-    ...userSlice.actions, loadUsers
-}
+    ...userSlice.actions,
+    loadUsersWithPagination, loadUserById
+};

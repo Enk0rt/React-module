@@ -1,11 +1,5 @@
-import {IUserWithTokens} from "../../../models/auth/IUserWithTokens.ts";
-import {createSlice} from "@reduxjs/toolkit";
-
-type UserAuthSliceType = {
-    userImage:string | null,
-    isUserAuth:boolean,
-    authenticatedUser: IUserWithTokens | null,
-}
+import { IUserWithTokens } from "../../../models/auth/IUserWithTokens.ts";
+import { createSlice} from "@reduxjs/toolkit";
 
 const getStoredUser = (): IUserWithTokens | null => {
     const storedUser = localStorage.getItem("user");
@@ -14,33 +8,35 @@ const getStoredUser = (): IUserWithTokens | null => {
 
 const getUserImage = (): string | null => {
     const user = getStoredUser();
-    if(user) return user.image
-    else return null
-}
+    return user ? user.image : null;
+};
 
-const userAuthInitialState: UserAuthSliceType = {userImage:getUserImage(),isUserAuth:!!getStoredUser(),authenticatedUser:getStoredUser()}
-
+const userAuthInitialState = {
+    userImage: getUserImage(),
+    isUserAuth: !!getStoredUser(),
+    authenticatedUser: getStoredUser(),
+};
 
 export const userAuthSlice = createSlice({
-    name: 'userAuthSlice',
+    name: "userAuthSlice",
     initialState: userAuthInitialState,
     reducers: {
-
-        setLoginUser: (state,action) => {
-            state.isUserAuth = true
-            state.authenticatedUser = action.payload
-            localStorage.setItem('user', JSON.stringify(action.payload));
-            state.userImage = action.payload.image
+        setLoginUser: (state, action) => {
+            state.isUserAuth = true;
+            state.authenticatedUser = action.payload;
+            localStorage.setItem("user", JSON.stringify(action.payload));
+            state.userImage = action.payload.image;
         },
-        setLogoutUser:(state) =>{
-            state.authenticatedUser = null
-            state.isUserAuth = false
-            state.userImage = null
-            localStorage.removeItem('user')
-        }
-    }
-})
+        setLogoutUser: (state) => {
+            state.authenticatedUser = null;
+            state.isUserAuth = false;
+            state.userImage = null;
 
-export const userAuthSliceSliceActions = {
-    ...userAuthSlice.actions
-}
+            localStorage.removeItem("user");
+        },
+    },
+});
+
+export const userAuthSliceActions = {
+    ...userAuthSlice.actions,
+};

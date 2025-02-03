@@ -23,7 +23,7 @@ export const refresh = async() => {
     const userWithToken = retrieveLocalStorage<IUserWithTokens>('user')
     const  {data:{accessToken,refreshToken}}= await axiosInstanceAuth.post<ITokens>('/refresh',{
         refreshToken:userWithToken.refreshToken,
-        expiresInMins:30,
+        expiresInMins:1,
     })
     userWithToken.accessToken = accessToken
     userWithToken.refreshToken = refreshToken

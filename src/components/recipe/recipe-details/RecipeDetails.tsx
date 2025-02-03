@@ -1,29 +1,36 @@
 import {useAppSelector} from "../../../redux/hooks/useAppSelector.tsx";
 import {useParams} from "react-router-dom";
+import {useAppDispatch} from "../../../redux/hooks/useAppDispatch.tsx";
+import {useEffect} from "react";
+import {recipeSliceActions} from "../../../redux/slices/recipe-slice/RecipeSlice.ts";
+
 
 export const RecipeDetails = () => {
     const {id} = useParams()
-    const recipe= useAppSelector(({recipeSlice})=> recipeSlice.recipes.find(recipe => recipe.id.toString() === id))
+    const {recipeById} = useAppSelector(({recipeSlice}) => recipeSlice)
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        dispatch(recipeSliceActions.clearRecipeById())
+        dispatch(recipeSliceActions.loadRecipeById(Number(id)))
+    }, []);
+    console.log(recipeById)
+
     return (
-        <div>
-            {
-                recipe ? (
-                    <div>
-                        <h2>{recipe.id} --- {recipe.name} rating: {recipe.rating}</h2>
-                        <p>Cuisine :{recipe.cuisine}</p>
-                        <p>CaloriesPerServing: {recipe.caloriesPerServing}</p>
-                        <p>Servings: {recipe.servings}</p>
-                        <p>Cook Time: {recipe.cookTimeMinutes}</p>
-                        <p>Preparation Time: {recipe.prepTimeMinutes}</p>
-                        <p>Difficulty: {recipe.difficulty}</p>
-                        <p>Meal-type: {recipe.mealType}</p>
-
-                    </div>
-                ) : (<div>Recipe not found</div>)
-            }
-
-        </div>
-    );
+        !recipeById ? (
+            <div>Loading...</div>
+        ) : (
+            <div>
+                <h2>{recipeById.id} --- {recipeById.name} rating: {recipeById.rating}</h2>
+                <p>Cuisine :{recipeById.cuisine}</p>
+                <p>CaloriesPerServing: {recipeById.caloriesPerServing}</p>
+                <p>Servings: {recipeById.servings}</p>
+                <p>Cook Time: {recipeById.cookTimeMinutes}</p>
+                <p>Preparation Time: {recipeById.prepTimeMinutes}</p>
+                <p>Difficulty: {recipeById.difficulty}</p>
+                <p>Meal-type: {recipeById.mealType}</p>
+                <img src={recipeById.image} alt={recipeById.name}/>
+            </div>
+        ))
 };
 
 export default RecipeDetails;

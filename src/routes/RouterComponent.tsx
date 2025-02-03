@@ -7,6 +7,7 @@ const Users = lazy(()=> import('../pages/users/UsersPage'))
 const Recipes = lazy(()=> import('../pages/recipes/RecipesPage'))
 const UserDetails = lazy(()=> import('../pages/user-details/UserDetailsPage.tsx'))
 const RecipeDetails = lazy(()=> import('../pages/recipe-details/RecipeDetailsPage.tsx'))
+const RecipeFilter = lazy(()=>import('../pages/filtered-recipes/FilteredRecipesPage.tsx'))
 
 export const RouterComponent = () => useRoutes([
     {
@@ -49,6 +50,14 @@ export const RouterComponent = () => useRoutes([
             </Suspense>
         ),
         path: AppRoutes.recipeDetails,
+    },
+    {
+        element: (
+            <Suspense fallback={<div><p>Loading..</p></div>}>
+                <RecipeFilter/>
+            </Suspense>
+        ),
+        path: AppRoutes.recipeTagFilter,
     },
 
 ])
